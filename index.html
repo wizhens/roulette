@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ルーレット！</title>
+    <style>
+        body{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height:98vh;
+            background-color: #222222;
+            color:white;
+        }
+        main{
+            width: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            position:relative;
+        }
+        .wrapper{
+            width: 300px;
+            height: 504px;
+            overflow:hidden;
+            position:relative;
+            border:1px solid rgb(48, 104, 189);
+            border-radius: 5px; 
+            background-color: #686868;
+        }
+        .active{
+            animation:rotate 1.5s infinite linear;
+        }
+        .hit{
+            position:absolute;
+            right: -20px;
+            top:245px;
+            z-index: 999;
+            font-size: 20px;
+            font-weight: 600;
+            color:yellow;
+        }
+        .pause{
+            animation-play-state: paused;
+        }
+        @keyframes rotate {
+            0%{transform: translateY(0);}
+            100%{transform:translateY(-4536px)}
+        }
+        .child{
+            height:84px;
+            border:1px solid rgb(175, 175, 175); 
+            display:flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #button{
+            margin-top: 10px;
+            width: 300px;
+            padding:10px 0;
+            font-size:20px;
+            background-color: rgb(57, 120, 214);
+            color:white;
+            border-radius:10px;
+            cursor: pointer;
+        }
+        h1{
+            color:white;
+        }
+        .player{
+            width:300px;
+            border-radius:5px;
+            padding:5px 0;
+            margin-top: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        参加者
+        <div><input type="text" class="player"></div>
+        <div><input type="text" class="player"></div>
+        <div><input type="text" class="player"></div>
+        <div><input type="text" class="player"></div>
+        <div><input type="text" class="player"></div>
+        <div><input type="text" class="player"></div>
+
+    </div>
+    <h1>ルーレット！</h1>
+    <main>        
+        <div class="hit">←</div>
+        <div class="wrapper">
+        
+        <div class="roulette" id="roulette">
+        </div>
+    </div>
+    <button onclick="roulette()" id="button">start</button>
+    </main>
+    
+</body>
+
+<script>
+    let obs = 0;
+    
+    const rouletteElm = document.getElementById('roulette')
+    for(let i = 0; i < 60; i++){
+        const childElm = document.createElement('div')
+        childElm.className = 'child';
+        childElm.textContent = '';
+        rouletteElm.appendChild(childElm)
+    }
+    
+
+    const roulette = () =>{
+        if (obs==0){
+        startRoulette();
+        document.getElementById("button").textContent = "stop"
+        obs = 1;
+    }
+    else{
+        stopRoulette();
+        document.getElementById("button").textContent = "start"
+        obs = 0;
+    }
+    }
+    
+    addEventListener("change", function(){
+        const playerAry = Array.from(document.getElementsByClassName("player"));
+        const child = Array.from(document.getElementsByClassName("child"));
+        const players = [];
+        playerAry.map((player)=>{
+            if(player.value !== ''){
+                players.push(player.value)
+            }
+        })
+        const loop = 60/(players.length+1) -1;
+       
+        for(let i = 0; i < 59;){
+            players.map((player) =>{  
+            child[i].textContent = player;    
+            i++        
+            })
+        } 
+    })
+
+    const startRoulette = () => {
+        const element = document.getElementById('roulette');
+        element.classList.remove("pause");
+        element.classList.add("active");
+    }
+    const stopRoulette = () => {
+        const element = document.getElementById('roulette');
+        element.classList.add("pause");
+    }
+</script>
+</html>
