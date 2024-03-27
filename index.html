@@ -93,6 +93,7 @@
             top:0;
             left:-300px;
             transition: all 0.2s;
+            border-right:1px #686868 solid;
         }
         #participant input{
             background-color: transparent;
@@ -102,17 +103,26 @@
             outline:none;
             border:1px solid rgb(175, 175, 175);
         }
+        #back{
+            display:none;
+            position: fixed;
+            width: 100%;
+            height: 100vh;
+            z-index: 99999;
+        }
     </style>
 </head>
 <body>
     <span class="material-symbols-outlined" onclick="participate()" style="margin-top: 15px; font-size:32px;cursor: pointer;">
         group
     </span>
+    <div id="back" onclick="participate()"></div>
     <div id="participant">
         <span class="material-symbols-outlined"onclick="participate()"style="margin:15px 15px 0 15px;cursor: pointer;">
             arrow_back
         </span>
-        <div style="margin-top: 80px;"><input type="text" class="player"></div>
+        <div style="margin-left:30px">抽選内容を入力</div>
+        <div><input type="text" class="player"></div>
         <div><input type="text" class="player"></div>
         <div><input type="text" class="player"></div>
         <div><input type="text" class="player"></div>
@@ -188,11 +198,15 @@
     let menuobs = true;
     const participate = () => {
         const elm = document.getElementById("participant")
+        const back = document.getElementById("back")
         if(menuobs){
             elm.style.left = "0";
+            back.style.display = "block";
             menuobs = false;
         }else{
-            elm.style.left = "-300px";menuobs = true;
+            elm.style.left = "-300px";
+            back.style.display = "none";
+            menuobs = true;
         }
         
 
